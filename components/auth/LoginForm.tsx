@@ -10,7 +10,7 @@ import {
 
 }  from "@/components/ui/form";
 import {useForm} from 'react-hook-form';
-import {RegisterSchema} from '@/schema';
+import {LoginSchema} from '@/schema';
 import {useTransition, useState} from 'react';
 import {z} from 'zod';
 import {zodResolver} from '@hookform/resolvers/zod';
@@ -19,16 +19,16 @@ import {FormError} from '@/components/auth/FormError';
 import {FormSuccess} from '@/components/auth/FormSuccess';
 import {Button} from '@/components/ui/button';
 
-const RegisterForm = () => {
+const LoginForm = () => {
     const [isPending, startTransition] = useTransition();
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string |undefined>('');
     const form = useForm({
-        resolver: zodResolver(RegisterSchema),
+        resolver: zodResolver(LoginSchema),
         defaultValues: {
             email: "",
             password: "",
-            name:""
+        
         }
     });
     const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
@@ -36,9 +36,9 @@ const RegisterForm = () => {
     }
     return (
         <CardWrapper
-        headerLabel="Create An account"
-        backButtonHref="/auth/login"
-        backButtonLabel="Already have an account? Login now"
+        headerLabel="Login to Dashboard"
+        backButtonHref="/auth/register"
+        backButtonLabel="Don't have an account? Register now"
         showSocial
         >
             <Form {...form}>
@@ -46,26 +46,6 @@ const RegisterForm = () => {
                 onSubmit = {form.handleSubmit(onSubmit)}
                 >
                     <div className="gap-y-2">
-                        <FormField
-                        control={form.control}
-                        name="name"
-                        render={({field})=> (
-                            <FormItem>
-                                <FormLabel>
-                                    Name
-                                </FormLabel>
-                                <FormControl>
-                                    <Input
-                                    disabled={isPending}
-                                    {...field}
-                                    type="text"
-                                    placeholder="John Doe"
-                                    />
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                        />
                         <FormField
                         control={form.control}
                         name="email"
@@ -114,7 +94,7 @@ const RegisterForm = () => {
                     type="submit"
                     className="w-full mt-2"
                     >
-                    Create an account
+                        Login now
                     </Button>
                 </form>
             </Form>
@@ -123,4 +103,4 @@ const RegisterForm = () => {
     )
 }
 
-export default RegisterForm;
+export default LoginForm;

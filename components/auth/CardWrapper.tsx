@@ -20,7 +20,7 @@ export const CardWrapper: React.FC<ICardWrapperProps> = ( {
     backButtonHref
 }) => {
     return (
-        <Card>
+        <Card className="w-[400px] shadow-md">
             <CardHeader>
                 <Header text={headerLabel} />
             </CardHeader>
