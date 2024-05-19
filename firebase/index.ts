@@ -50,7 +50,7 @@ export const registerUserWithEmailAndPassword = async (values: z.infer<typeof Re
                 }
             }
         }
-    }
+    };
         return {
             response: {
                  error: null, 
@@ -86,20 +86,20 @@ export const registerUserWithEmailAndPassword = async (values: z.infer<typeof Re
     };
 };
 
-export const loginUserWithEmailAndPassword = async (data: {
-    email: string,
-    password: string
-}) => {
-    try {
-        const userCredentials = await signInWithEmailAndPassword(
-            auth,
-            data.email,
-            data.password
-        );
-        if(!userCredentials) return {success: false, user: null};
-        return {success: true, user: userCredentials.user};
-    } catch (error) {
-        console.error(error);
-        return;
-    }
-}
+// export const loginUserWithEmailAndPassword = async (data: {
+//     email: string,
+//     password: string
+// }) => {
+//     try {
+//         const userCredentials = await signInWithEmailAndPassword(
+//             auth,
+//             data.email,
+//             data.password
+//         );
+//         if(!userCredentials) return {success: false, user: null};
+//         return {success: true, user: userCredentials.user};
+//     } catch (error) {
+//         console.error(error);
+//         return;
+//     }
+// }
