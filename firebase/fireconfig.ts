@@ -3,8 +3,8 @@ import { initializeApp } from "firebase/app";
 import {getAuth, createUserWithEmailAndPassword} from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCrpklGW2iY78m4k0_cN_fea0KZ2bYHW_0",
-  authDomain: "studentme-e495e.firebaseapp.com",
+  apiKey: process.env.FIREBASE_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
   projectId: "studentme-e495e",
   storageBucket: "studentme-e495e.appspot.com",
   messagingSenderId: "656082617048",
