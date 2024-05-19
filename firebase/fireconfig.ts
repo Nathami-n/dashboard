@@ -41,7 +41,8 @@ export const registerUserWithEmailAndPassword = async (data: z.infer<typeof Regi
 
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-        if(!userCredentials.)
+        if(!userCredentials) return {data:{error: "Something went wrong", success: {state: false,  data: null}}}
+        return {data: { error: null, success: { state: true, data: userCredentials.user}}};
 
     } catch(error: any) {
         if(error.code === 'auth/email-already-in-use' ) {
@@ -50,7 +51,6 @@ export const registerUserWithEmailAndPassword = async (data: z.infer<typeof Regi
                     error: "Email already registered",
                     success: {
                         state: false,
-                        response: undefined,
                         data: null,
                     }
                 }
@@ -62,7 +62,6 @@ export const registerUserWithEmailAndPassword = async (data: z.infer<typeof Regi
                 error: "Something went wrong",
                 success: {
                     state: false,
-                    response: undefined,
                     data: null,
                 }
             }
