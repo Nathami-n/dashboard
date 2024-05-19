@@ -17,17 +17,16 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-export const registerUserWithEmailAndPassword = async (data: z.infer<typeof RegisterSchema>) => {
-    const validFields = RegisterSchema.safeParse(data);
+export const registerUserWithEmailAndPassword = async (values: z.infer<typeof RegisterSchema>) => {
+    const validFields = RegisterSchema.safeParse(values);
 
     if(!validFields.success) {
         return {
-            data: {
+            response: {
                 error: "Invalid Credentials",
                 success: {
                     state: false,
-                    response: undefined,
-                    data: null
+                    payload: null
                 }
             }
         }
@@ -41,28 +40,46 @@ export const registerUserWithEmailAndPassword = async (data: z.infer<typeof Regi
 
     try {
         const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-        if(!userCredentials) return {data:{error: "Something went wrong", success: {state: false,  data: null}}}
-        return {data: { error: null, success: { state: true, data: userCredentials.user}}};
+        if(!userCredentials) { 
+            return { 
+            response: { 
+            error: "Something went wrong", 
+            success: {
+                 state: false,
+                 payload: null
+                }
+            }
+        }
+    }
+        return {
+            response: {
+                 error: null, 
+                 success: { 
+                    state: true, 
+                    payload: userCredentials.user
+                }
+            }
+        };
 
     } catch(error: any) {
         if(error.code === 'auth/email-already-in-use' ) {
             return {
-                data: {
+                response: {
                     error: "Email already registered",
                     success: {
                         state: false,
-                        data: null,
+                        payload: null,
                     }
                 }
             }
         };
 
         return {
-            data: {
+            response: {
                 error: "Something went wrong",
                 success: {
                     state: false,
-                    data: null,
+                    payload: null,
                 }
             }
         }

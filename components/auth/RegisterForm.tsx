@@ -34,8 +34,12 @@ const RegisterForm = () => {
     const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
             startTransition(async () => {
                 const userData = await registerUserWithEmailAndPassword(data);
-                if(!userData) return;
-                console.log(userData.user);
+                const {success, error} = userData.response;
+                if(!success.state && error !== null) {
+                    setError(error);
+                    return;
+                };
+                console.log(success.payload);
                 
             })
     }
