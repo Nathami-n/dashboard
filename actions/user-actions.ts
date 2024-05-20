@@ -5,53 +5,51 @@ import {RegisterSchema, LoginSchema} from '@/schema';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 
 
+
+
 export const registerUser = async (values: z.infer<typeof RegisterSchema>) => {
     const validFields = RegisterSchema.safeParse(values);
-
     if(!validFields.success) {
         return {
-            response: {
-                error: "Invalid Credentials",
-                success: {
-                    state: false,
-                    payload: null
-                }
+            success: false,
+            payload: {
+                data: null,
+                err: "Check inputed values"
             }
         }
     };
+
     const {
-        email,
+        email, 
         password
     } = validFields.data;
 
-    //try signing up the user 
-
     try {
-        const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-        if(!userCredentials) { 
-            return { 
-            response: { 
-            error: "Something went wrong", 
-            success: {
-                 state: false,
-                 payload: null
+        const userDetails = await createUserWithEmailAndPassword(auth, email, password);
+        return {
+            success: true,
+            payload: {
+                data: userDetails.user,
+                err: null,
+            }
+        }
+    } catch (error: any) {
+        if(error.code === 'auth/email-already-in-use') {
+            return {
+                success: false,
+                payload: {
+                    data: null,
+                    err: "Email already registered"
+                }
+            }
+        } else {
+            return {
+                success: false,
+                payload: {
+                    data: null,
+                    err: error.message
                 }
             }
         }
-    };
-        return {
-            response: {
-                 error: null, 
-                 success: { 
-                    state: true, 
-                    payload: userCredentials.user
-                }
-            }
-        };
-
-    } catch(error: any) {
-        if( ) {
-            
-        };
-}
+    }
 }

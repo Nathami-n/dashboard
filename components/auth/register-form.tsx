@@ -11,17 +11,18 @@ import {
 } from "@/components/ui/form";
 import { useForm } from 'react-hook-form';
 import { RegisterSchema } from '@/schema';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import { z } from 'zod';
-import { registerUser } from '@/actions/user-actions';
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from "@/components/ui/input";
+import { auth } from "@/config/fireconfig";
 import { FormError } from '@/components/auth/form-error';
 import { FormSuccess } from '@/components/auth/form-success';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 const RegisterForm = () => {
-    const [isPending, setIsPending] = useState(false);
+    const [isPending, startTransition] = useTransition();
     const router = useRouter();
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string | undefined>('');
@@ -32,26 +33,29 @@ const RegisterForm = () => {
             password: "",
         }
     });
-    const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
-        setIsPending(true);
+    const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
+    
+      startTransition( async () => {
+        const validValues = RegisterSchema.safeParse(values);
+        if (!validValues.success) {
+            setError("Invalid Credentials");
+            return
+        };
+
+        const { email, password } = validValues.data;
+        
         try {
-            console.log("trying logging the user");
-            const userData = await registerUser(data);
-            const { success, error } = userData.response;
-            if (!success.state && error !== null) {
-                setError(error);
-                setIsPending(false);
-                return;
-            }
-            setSuccess("Account Creation successful");
-            setIsPending(false);
-            router.push('/login');
-        } catch (err: any) {
-            setError(err.message);
-        } finally {
-            setIsPending(false);
+            const userDetails = await createUserWithEmailAndPassword(auth, email, password);
+            console.log(userDetails.user);
+            setSuccess("Registered successfully");
+            router.push("/auth/login");
+        } catch (error: any) {
+            setError(error.message);
+            return;
         }
+      })
     }
+
     return (
         <CardWrapper
             headerLabel="Create An account"
