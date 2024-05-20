@@ -13,10 +13,9 @@ import { useForm } from 'react-hook-form';
 import { RegisterSchema } from '@/schema';
 import { useState, useTransition } from 'react';
 import { z } from 'zod';
-import { createUserWithEmailAndPassword } from "firebase/auth";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from "@/components/ui/input";
-import { auth } from "@/config/fireconfig";
+import { registerUser } from '@/actions/user-actions';
 import { FormError } from '@/components/auth/form-error';
 import { FormSuccess } from '@/components/auth/form-success';
 import { Button } from '@/components/ui/button';
@@ -36,25 +35,19 @@ const RegisterForm = () => {
     const onSubmit = (values: z.infer<typeof RegisterSchema>) => {
     
       startTransition( async () => {
-        const validValues = RegisterSchema.safeParse(values);
-        if (!validValues.success) {
-            setError("Invalid Credentials");
-            return
-        };
+       const userData = await registerUser(values);
+       const {success, payload} = userData;
 
-        const { email, password } = validValues.data;
-        
-        try {
-            const userDetails = await createUserWithEmailAndPassword(auth, email, password);
-            console.log(userDetails.user);
-            setSuccess("Registered successfully");
-            router.push("/auth/login");
-        } catch (error: any) {
-            setError(error.message);
-            return;
-        }
-      })
-    }
+       if(!success) {
+        setError(payload.err);
+        return;
+       };
+
+       setSuccess("Successfully registered");
+       console.log(payload.data);
+       router.push('/api/login');
+    })
+}
 
     return (
         <CardWrapper
@@ -124,5 +117,4 @@ const RegisterForm = () => {
         </CardWrapper>
     )
 }
-
 export default RegisterForm;

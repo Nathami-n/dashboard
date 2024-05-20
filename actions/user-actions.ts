@@ -1,4 +1,4 @@
-"use server";
+
 import {auth} from '@/config/fireconfig';
 import * as z from 'zod';
 import {RegisterSchema, LoginSchema} from '@/schema';
