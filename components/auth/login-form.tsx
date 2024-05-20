@@ -13,14 +13,16 @@ import { useForm } from 'react-hook-form';
 import { LoginSchema } from '@/schema';
 import { useTransition, useState } from 'react';
 import { z } from 'zod';
+import { useRouter } from "next/navigation";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from "@/components/ui/input";
 import { FormError } from '@/components/auth/form-error';
 import { FormSuccess } from '@/components/auth/form-success';
 import { Button } from '@/components/ui/button';
-
+import { loginUser } from "@/actions/user-actions";
 const LoginForm = () => {
     const [isPending, startTransition] = useTransition();
+    const router = useRouter();
     const [error, setError] = useState<string | undefined>('');
     const [success, setSuccess] = useState<string | undefined>('');
     const form = useForm({
@@ -31,8 +33,20 @@ const LoginForm = () => {
 
         }
     });
-    const onSubmit = async (data: z.infer<typeof LoginSchema>) => {
-        console.log("Testing the login page")
+    const onSubmit = async (values: z.infer<typeof LoginSchema>) => {
+        startTransition( async () => {
+            const userData = await loginUser(values);
+            const {success, payload} = userData;
+     
+            if(!success) {
+             setError(payload.err);
+             return;
+            };
+     
+            setSuccess("Success");
+            console.log(payload.data);
+            router.push('/');
+         })
     }
     return (
         <CardWrapper
