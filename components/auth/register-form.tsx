@@ -1,5 +1,5 @@
 'use client';
-import { CardWrapper } from "@/components/auth/CardWrapper";
+import { CardWrapper } from "@/components/auth/card-wrapper";
 import {
     Form,
     FormField,
@@ -11,13 +11,13 @@ import {
 } from "@/components/ui/form";
 import { useForm } from 'react-hook-form';
 import { RegisterSchema } from '@/schema';
-import { useState, useTransition } from 'react';
+import { useState } from 'react';
 import { z } from 'zod';
-import { registerUserWithEmailAndPassword } from '@/firebase';
+import { registerUser } from '@/actions/user-actions';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from "@/components/ui/input";
-import { FormError } from '@/components/auth/FormError';
-import { FormSuccess } from '@/components/auth/FormSuccess';
+import { FormError } from '@/components/auth/form-error';
+import { FormSuccess } from '@/components/auth/form-success';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 const RegisterForm = () => {
@@ -35,7 +35,8 @@ const RegisterForm = () => {
     const onSubmit = async (data: z.infer<typeof RegisterSchema>) => {
         setIsPending(true);
         try {
-            const userData = await registerUserWithEmailAndPassword(data);
+            console.log("trying logging the user");
+            const userData = await registerUser(data);
             const { success, error } = userData.response;
             if (!success.state && error !== null) {
                 setError(error);
