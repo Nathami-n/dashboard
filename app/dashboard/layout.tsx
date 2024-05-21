@@ -1,4 +1,4 @@
-import Navbar from "@/components/dashboard/navbar/sidebar";
+import Navbar from "@/components/dashboard/navbar/navbar";
 import SideBar from "@/components/dashboard/sidebar/sidebar";
 
 const DashBoardLayout = ({
@@ -7,12 +7,13 @@ const DashBoardLayout = ({
     children: React.ReactNode
 }) => {
     return (
-        <div>
-            <div>
-                <Navbar/>
-            </div>
-            <div>
+        <div className="flex">
+            <div className="flex-[1] p-6 w-full soft">
                 <SideBar/>
+            </div>
+            <div className="flex-[4] p-5">
+                <Navbar/>
+                {children}
             </div>
         </div>
     )
