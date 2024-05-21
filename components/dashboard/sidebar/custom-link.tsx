@@ -16,7 +16,7 @@ const CustomLink: React.FC<ICustomLinkProps> = ({item}) => {
     return (
         <Link 
         href={item.path}
-        className={`flex p-5 items-center gap-2 hover:bg-[#2e374a] transition-all ${ pathname === item.path ? "bg-[#2e374a]" : " "} `}
+        className={`flex p-4 items-center my-1 rounded-md gap-2 hover:bg-[#2e374a] transition-all ${ pathname === item.path ? "bg-[#2e374a]" : " "} `}
         >
         {item.icon}
         {item.title}
