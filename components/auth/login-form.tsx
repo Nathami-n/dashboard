@@ -102,7 +102,7 @@ const LoginForm = () => {
                         />
                     </div>
                     <FormError message={error as string} />
-                    <FormSuccess message={error as string} />
+                    <FormSuccess message={success as string} />
                     <Button
                         disabled={isPending}
                         type="submit"
