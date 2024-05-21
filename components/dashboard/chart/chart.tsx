@@ -40,8 +40,8 @@ const data = [
 
 const Chart = () => {
     return (
-        <div>
-            <h2>Weekly Recap</h2>
+        <div className="soft p-5 rounded-md h-[450px]">
+            <h2 className='mb-5 font-[200px]'>Weekly Recap</h2>
             <ResponsiveContainer width="100%" height="90%">
                 <LineChart
                     width={500}
