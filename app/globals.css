@@ -197,3 +197,13 @@ body {
   background-color: var(--bgSoft);
 }
  
+td {
+  padding: 10px;
+}
+
+.base {
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 14px;
+  color: white;
+}

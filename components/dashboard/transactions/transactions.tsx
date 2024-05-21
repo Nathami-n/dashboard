@@ -14,7 +14,7 @@ const Transactions = () => {
                         <td>Amount</td>
                     </tr>
                 </thead>
-                <tbody className="gap-y-4">
+                <tbody>
                     <tr>
                         <td>
                            <div className="flex gap-2 items-center">
@@ -29,7 +29,7 @@ const Transactions = () => {
                            </div>
                         </td>
                         <td>
-                            <span>Pending</span>
+                            <span className="base bg-[#f7cb7375]">Pending</span>
                         </td>
                         <td>13.5.2003</td>
                         <td>$600</td>
@@ -48,7 +48,7 @@ const Transactions = () => {
                            </div>
                         </td>
                         <td>
-                            <span>Pending</span>
+                            <span className="base bg-[#f7cb7375]">Pending</span>
                         </td>
                         <td>13.5.2003</td>
                         <td>$600</td>
@@ -67,7 +67,7 @@ const Transactions = () => {
                            </div>
                         </td>
                         <td>
-                            <span>Done</span>
+                            <span className="base bg-[#afd6ee75]">Done</span>
                         </td>
                         <td>13.5.2003</td>
                         <td>$600</td>
@@ -86,7 +86,7 @@ const Transactions = () => {
                            </div>
                         </td>
                         <td>
-                            <span>Cancelled</span>
+                            <span className="base bg-[#f7737375]">Cancelled</span>
                         </td>
                         <td>13.5.2003</td>
                         <td>$600</td>
